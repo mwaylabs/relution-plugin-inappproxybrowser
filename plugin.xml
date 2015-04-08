@@ -19,15 +19,15 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="cordova-plugin-inappbrowser"
+           id="relution-plugin-inappproxybrowser"
       version="0.6.1-dev">
 
-    <name>InAppBrowser</name>
-    <description>Cordova InAppBrowser Plugin</description>
+    <name>InAppProxyBrowser</name>
+    <description>Relution InAppProxyBrowser Plugin</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,in,app,browser,inappbrowser</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320641</issue>
+    <keywords>cordova,in,app,browser,inappbrowser,relution,proxy</keywords>
+    <repo>https://github.com/mwaylabs/relution-plugin-inappproxybrowser</repo>
+    <issue>https://github.com/mwaylabs/relution-plugin-inappproxybrowser/issues</issue>
 
     <engines>
       <engine name="cordova" version=">=3.1.0" /><!-- Needs cordova/urlutil -->
@@ -35,19 +35,19 @@
 
     <!-- android -->
     <platform name="android">
-        <js-module src="www/inappbrowser.js" name="inappbrowser">
-            <clobbers target="cordova.InAppBrowser.open" />
+        <js-module src="www/inappproxybrowser.js" name="inappproxybrowser">
+            <clobbers target="relution.InAppProxyBrowser.open" />
             <clobbers target="window.open" />
         </js-module>
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="InAppBrowser"> 
-                <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser"/>
+            <feature name="InAppProxyBrowser"> 
+                <param name="android-package" value="com.mwaysolutions.relution.inappproxybrowser.InAppProxyBrowser"/>
             </feature>
         </config-file>
 
-        <source-file src="src/android/InAppBrowser.java" target-dir="src/org/apache/cordova/inappbrowser" />
-        <source-file src="src/android/InAppBrowserDialog.java" target-dir="src/org/apache/cordova/inappbrowser" />
-        <source-file src="src/android/InAppChromeClient.java" target-dir="src/org/apache/cordova/inappbrowser" />
+        <source-file src="src/android/InAppProxyBrowser.java" target-dir="src/com/mwaysolutions/relution/inappproxybrowser" />
+        <source-file src="src/android/InAppProxyBrowserDialog.java" target-dir="src/com/mwaysolutions/relution/inappproxybrowser" />
+        <source-file src="src/android/InAppProxyChromeClient.java" target-dir="src/com/mwaysolutions/relution/inappproxybrowser" />
 
         <!--  drawable src/android/resources -->
         <resource-file src="src/android/res/drawable-hdpi/ic_action_next_item.png" target="res/drawable-hdpi/ic_action_next_item.png" />

@@ -1,22 +1,29 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
-         http://www.apache.org/licenses/LICENSE-2.0
+package com.mwaysolutions.relution.inappproxybrowser;
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
-*/
-package org.apache.cordova.inappbrowser;
+import android.webkit.GeolocationPermissions.Callback;
+import android.webkit.JsPromptResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebStorage;
+import android.webkit.WebView;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.LOG;
@@ -24,23 +31,18 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.webkit.JsPromptResult;
-import android.webkit.WebChromeClient;
-import android.webkit.WebStorage;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.webkit.GeolocationPermissions.Callback;
 
-public class InAppChromeClient extends WebChromeClient {
+public class InAppProxyChromeClient extends WebChromeClient {
 
-    private CordovaWebView webView;
-    private String LOG_TAG = "InAppChromeClient";
-    private long MAX_QUOTA = 100 * 1024 * 1024;
+    private final CordovaWebView webView;
+    private final String         LOG_TAG   = "InAppChromeClient";
+    private final long           MAX_QUOTA = 100 * 1024 * 1024;
 
-    public InAppChromeClient(CordovaWebView webView) {
+    public InAppProxyChromeClient(final CordovaWebView webView) {
         super();
         this.webView = webView;
     }
+
     /**
      * Handle database quota exceeded notification.
      *
@@ -52,11 +54,11 @@ public class InAppChromeClient extends WebChromeClient {
      * @param quotaUpdater
      */
     @Override
-    public void onExceededDatabaseQuota(String url, String databaseIdentifier, long currentQuota, long estimatedSize,
-            long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater)
+    public void onExceededDatabaseQuota(final String url, final String databaseIdentifier, final long currentQuota, final long estimatedSize,
+            final long totalUsedQuota, final WebStorage.QuotaUpdater quotaUpdater)
     {
-        LOG.d(LOG_TAG, "onExceededDatabaseQuota estimatedSize: %d  currentQuota: %d  totalUsedQuota: %d", estimatedSize, currentQuota, totalUsedQuota);
-        quotaUpdater.updateQuota(MAX_QUOTA);
+        LOG.d(this.LOG_TAG, "onExceededDatabaseQuota estimatedSize: %d  currentQuota: %d  totalUsedQuota: %d", estimatedSize, currentQuota, totalUsedQuota);
+        quotaUpdater.updateQuota(this.MAX_QUOTA);
     }
 
     /**
@@ -66,7 +68,7 @@ public class InAppChromeClient extends WebChromeClient {
      * @param callback
      */
     @Override
-    public void onGeolocationPermissionsShowPrompt(String origin, Callback callback) {
+    public void onGeolocationPermissionsShowPrompt(final String origin, final Callback callback) {
         super.onGeolocationPermissionsShowPrompt(origin, callback);
         callback.invoke(origin, true, false);
     }
@@ -98,19 +100,19 @@ public class InAppChromeClient extends WebChromeClient {
      * @param result
      */
     @Override
-    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+    public boolean onJsPrompt(final WebView view, final String url, final String message, final String defaultValue, final JsPromptResult result) {
         // See if the prompt string uses the 'gap-iab' protocol. If so, the remainder should be the id of a callback to execute.
         if (defaultValue != null && defaultValue.startsWith("gap")) {
-            if(defaultValue.startsWith("gap-iab://")) {
+            if (defaultValue.startsWith("gap-iab://")) {
                 PluginResult scriptResult;
-                String scriptCallbackId = defaultValue.substring(10);
+                final String scriptCallbackId = defaultValue.substring(10);
                 if (scriptCallbackId.startsWith("InAppBrowser")) {
-                    if(message == null || message.length() == 0) {
+                    if (message == null || message.length() == 0) {
                         scriptResult = new PluginResult(PluginResult.Status.OK, new JSONArray());
                     } else {
                         try {
                             scriptResult = new PluginResult(PluginResult.Status.OK, new JSONArray(message));
-                        } catch(JSONException e) {
+                        } catch (final JSONException e) {
                             scriptResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.getMessage());
                         }
                     }
@@ -122,7 +124,7 @@ public class InAppChromeClient extends WebChromeClient {
             else
             {
                 // Anything else with a gap: prefix should get this message
-                LOG.w(LOG_TAG, "InAppBrowser does not support Cordova API calls: " + url + " " + defaultValue); 
+                LOG.w(this.LOG_TAG, "InAppBrowser does not support Cordova API calls: " + url + " " + defaultValue);
                 result.cancel();
                 return true;
             }

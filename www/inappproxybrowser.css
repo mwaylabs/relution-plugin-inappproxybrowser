@@ -17,7 +17,7 @@
  * under the License.
  */
 
-.inAppBrowserWrap {
+.inAppProxyBrowserWrap {
     margin: 0;
     padding: 0;
     border: 0;
@@ -35,7 +35,7 @@
     border: 40px solid rgba(0, 0, 0, 0.25);
 }
 
-.inAppBrowserWrapFullscreen {
+.inAppProxyBrowserWrapFullscreen {
     width: 100%;
     height: 100%;
     border: 0;

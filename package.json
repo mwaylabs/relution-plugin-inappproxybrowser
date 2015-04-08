@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-inappbrowser",
+  "name": "relution-plugin-inappproxybrowser",
   "version": "0.6.1-dev",
-  "description": "Cordova InAppBrowser Plugin",
+  "description": "Relution InAppProxyBrowser Plugin",
   "cordova": {
-    "id": "cordova-plugin-inappbrowser",
+    "id": "relution-plugin-inappproxybrowser",
     "platforms": [
       "android",
       "amazon-fireos",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git"
+    "url": "https://github.com/mwaylabs/relution-plugin-inappproxybrowser"
   },
   "keywords": [
     "cordova",
@@ -35,7 +35,9 @@
     "cordova-wp8",
     "cordova-windows8",
     "cordova-windows",
-    "cordova-firefoxos"
+    "cordova-firefoxos",
+    "relution",
+    "proxy"
   ],
   "engines": [
     {
